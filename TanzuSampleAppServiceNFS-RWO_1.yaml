@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: vsphere-with-tanzu-pv-nfs
+  name: pvc-test-nfs
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: kubernetes-nfs-policy
+  storageClassName: psc
   resources:
     requests:
       storage: 1Gi
@@ -13,16 +13,16 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: tanzu-demo-pod-ngix
+  name: demo-pod-ngix
   labels: 
     app : nginx
 spec:
   volumes:
     - name: my-pod-storage
       persistentVolumeClaim:
-        claimName: vsphere-with-tanzu-pv-nfs
+        claimName: pvc-test-nfs
   containers:
-    - name: tanzu-demo-pod-ngix-container
+    - name: demo-pod-ngix-container
       image: nginx
       ports:
         - containerPort: 80
@@ -34,7 +34,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: tanzu-demo-service-nginx
+  name: demo-service-nginx
 spec:
   selector:
     app: nginx
